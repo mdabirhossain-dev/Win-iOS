@@ -1,0 +1,43 @@
+//
+//
+//  GiftPointRouter.swift
+//  Win-iOS
+//
+//  Created by Md. Abir Hossain on 25/1/26.
+//  Contact me if anything is needed: 
+//                             Phone: +880 1521-717367
+//                             Email: mdabirhossain.dev@gmail.com
+//  ©️ 2026 Md. Abir Hossain. All rights reserved.
+//
+
+
+
+import UIKit
+
+final class GiftPointRouter: GiftPointRouterProtocol {
+
+    weak var viewController: UIViewController?
+
+    static func createModule(userSummary: UserSummaryResponse? = nil) -> UIViewController {
+        let view = GiftPointViewController()
+
+        let presenter = GiftPointPresenter(initialUserSummary: userSummary)
+        let interactor = GiftPointInteractor()
+        let router = GiftPointRouter()
+
+        view.presenter = presenter
+
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.router = router
+
+        interactor.output = presenter
+        router.viewController = view
+
+        return view
+    }
+
+    func goBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+}
